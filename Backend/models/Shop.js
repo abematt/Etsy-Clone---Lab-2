@@ -1,0 +1,20 @@
+const mongoose = require("mongoose")
+
+const ShopSchema = new mongoose.Schema({
+    user_id: {
+        type: String,
+        required: true,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    img: {
+        type: String,
+        required: true,
+    },
+},
+{timestamps: true},
+);
+
+module.exports = mongoose.model("Shop", ShopSchema)
