@@ -6,7 +6,7 @@ var kafka = require('../kafka/client')
 //Register
 router.post("/register",  (req,res)=>{
 
-    kafka.make_request('auth', req.body,async function(err,result){
+    kafka.make_request('auth', req.body,function(err,result){
         if(err){
             res.json({
                 status:"error",
@@ -15,23 +15,11 @@ router.post("/register",  (req,res)=>{
             })
         }
         else{
-                const newUser = new User({
-                    username: req.body.username,
-                    email: req.body.email,
-                    password: req.body.password,
-                });
-            
-                try {
-                    const savedUser = await newUser.save();
-                    res
-                        .status(201)
-                        .json(savedUser);
-                }catch(err){
-                    res
-                        .status(400)
-                        .json(err);
-                }
-                res.end();
+            res.json({
+                status: "success",
+                msg: "Here is what we did",
+                result: result,
+            })
         }
     })
     
