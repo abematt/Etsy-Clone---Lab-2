@@ -1,25 +1,40 @@
 const router = require("express").Router();
+const KafkaRPC = require("../kafka/kafkarpc");
 const User = require('../models/User')
+var kafka = require('../kafka/client')
 
 //Register
-router.post("/register", async (req,res)=>{
+router.post("/register",  (req,res)=>{
 
-    const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-    });
-
-    try {
-        const savedUser = await newUser.save();
-        res
-            .status(201)
-            .json(savedUser);
-    }catch(err){
-        res
-            .status(400)
-            .json(err);
-    }
+    kafka.make_request('auth', req.body,async function(err,result){
+        if(err){
+            res.json({
+                status:"error",
+                msg: "System Error, Try Again",
+                error: err
+            })
+        }
+        else{
+            const newUser = new User({
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password,
+            });
+        
+            try {
+                const savedUser = await newUser.save();
+                res
+                    .status(201)
+                    .json(savedUser);
+            }catch(err){
+                res
+                    .status(400)
+                    .json(err);
+            }
+            res.end();
+        }
+    })
+    
 
 });
 
