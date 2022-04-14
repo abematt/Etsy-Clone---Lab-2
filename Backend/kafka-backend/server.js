@@ -4,6 +4,13 @@ var connection =  new require('./kafka/Connection');
 var Books = require('./services/books.js');
 var Auth = require('./services/auth')
 
+//Environment variable using dotenv
+const dotenv = require("dotenv");
+dotenv.config();
+
+//Creating connection to database
+const mongooseConnection = require('../config/database')
+
 function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
     var consumer = connection.getConsumer(topic_name);

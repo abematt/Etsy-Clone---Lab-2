@@ -8,20 +8,26 @@ router.post("/register",  (req,res)=>{
 
     kafka.make_request('auth', req.body,function(err,result){
         if(err){
+            // res
+            //     .status(400)
+            //     .json(err)
             res.json({
-                status:"error",
-                msg: "System Error, Try Again",
-                error: err
+                status: 400,
+                body: err
             })
         }
         else{
             res.json({
-                status: "success",
-                msg: "Here is what we did",
-                result: result,
+                status: 201,
+                body: result
             })
         }
+        //     res
+        //         .status(201)
+        //         .json(result)
+        // }
     })
+    
     
 
 });
