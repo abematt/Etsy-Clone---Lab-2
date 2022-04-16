@@ -8,48 +8,53 @@ router.post("/register",  (req,res)=>{
 
     kafka.make_request('auth', req.body,function(err,result){
         if(err){
-            // res
-            //     .status(400)
-            //     .json(err)
-            res.json({
-                status: 400,
-                body: err
-            })
+            return res
+                    .status(400)
+                    .json(err)
         }
         else{
-            res.json({
-                status: 201,
-                body: result
-            })
+            if (result.status == 201)
+            {
+                return res
+                    .status(201)
+                    .json(result.message)
+            }
+            else{
+                return res
+                    .status(400)
+                    .json(result.message)
+            }
+
         }
-        //     res
-        //         .status(201)
-        //         .json(result)
-        // }
-    })
-    
-    
+    })  
 
 });
 
 router.post("/login",async(req,res)=>{
-    try{
-
-        const user = await User.findOne({username: req.body.username});
-        const password = user.password
-        if (password != req.body.password){
-            res
-                .status(401)
-                .json("Wrong Credentials!");
+    
+    kafka.make_request('login', req.body,function(err,result){
+        if(err){
+            return res
+                    .status(400)
+                    .json({message: "Server Error"})
         }
         else{
-            res
-                .status(200)
-                .json(user);
+            console.log("did i reach here")
+            if(result.status==400)
+            {
+                return res
+                    .status(400)
+                    .json({message: result.message})
+            }
+            else
+            {
+                return res
+                    .status(201)
+                    .json(result.message)
+            }
         }
-    }catch(err){
-        res.status(500).json("Something went wrong")
-    }
+    })
 })
 
 module.exports = router;
+

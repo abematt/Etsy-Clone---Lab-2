@@ -2,7 +2,8 @@ var connection =  new require('./kafka/Connection');
 //topics files
 //var signin = require('./services/signin.js');
 var Books = require('./services/books.js');
-var Auth = require('./services/auth')
+var Register = require('./services/auth')
+var Login = require('./services/login')
 
 //Environment variable using dotenv
 const dotenv = require("dotenv");
@@ -44,4 +45,5 @@ function handleTopicRequest(topic_name,fname){
 //first argument is topic name
 //second argument is a function that will handle this topic request
 handleTopicRequest("post_book",Books)
-handleTopicRequest("auth",Auth)
+handleTopicRequest("auth",Register)
+handleTopicRequest("login",Login)

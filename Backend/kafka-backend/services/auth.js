@@ -1,4 +1,11 @@
 const User = require("../../models/User")
+const CryptoJS = require('crypto-js')
+const jwt = require("jsonwebtoken")
+
+var returnData = {
+    status: "",
+    message: ""
+}
 
 async function handle_request(msg,callback){
     console.log("Inside the backend of kafka");
@@ -6,28 +13,18 @@ async function handle_request(msg,callback){
     const newUser = new User({
         username: msg.username,
         email: msg.email,
-        password: msg.password,
+        password: CryptoJS.AES.encrypt(msg.password,process.env.PASS_SEC),
     });
     try {
-        console.log("user to be added",newUser)
-        console.log("outside try")
-        console.log("did we get inside try?")
         const savedUser = await newUser.save();
-        console.log("user has been saved", savedUser);
-        callback(null,savedUser)
+        returnData.status = 201
+        returnData.message = savedUser
+        callback(null,returnData)
     }catch(err){
-        callback(null,err)
+        returnData.status = 400
+        returnData.message = err
+        callback(null,returnData)
     }
-    
-        // res
-        //     .status(201)
-        //     .json(savedUser);
-    // }catch(err){
-        // res
-        //     .status(400)
-        //     .json(err);
-    // }
-    // res.end();
     
     console.log("after callback");
 };
