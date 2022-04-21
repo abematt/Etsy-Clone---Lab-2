@@ -18,12 +18,16 @@ const mongooseConnection = require('./config/database')
 const testRoute = require('./routes/test')
 const authRoute = require('./routes/auth')
 const userRoute = require('./routes/user')
+const productRoute = require('./routes/product')
+const shopRoute = require('./routes/shop')
 
 //Defining api endpoints
 app.use(express.json());
 app.use("/api/test",testRoute);
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute)
+app.use("/api/shop",shopRoute)
+app.use("/api/product",productRoute)
 
 app.listen(3001);
 console.log("Server listening on 3001");

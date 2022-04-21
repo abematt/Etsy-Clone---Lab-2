@@ -23,7 +23,7 @@ const ProductSchema = new mongoose.Schema({
     },
     sales_count: {
         type: Number,
-        required: true,
+        required: false,
     },
     quantity: {
         type: Number,
