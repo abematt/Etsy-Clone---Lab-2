@@ -17,6 +17,10 @@ var UpdateProduct = require('./services/Product/updateProduct')
 var GetProduct = require('./services/Product/getProduct')
 var GetProducts = require('./services/Product/getProducts')
 
+var CreateCart = require('./services/Cart/createCart')
+var UpdateCart = require('./services/Cart/updateCart')
+var GetCart = require("./services/Cart/getItems")
+
 //Environment variable using dotenv
 const dotenv = require("dotenv");
 dotenv.config();
@@ -60,28 +64,34 @@ function handleTopicRequest(topic_name,fname){
 handleTopicRequest("auth",Register)
 handleTopicRequest("login",Login)
 //Need to add Topics+Routes
-//User
+
+//USER
 handleTopicRequest("user_update",UserUpdate)
 handleTopicRequest("user_details",UserDetails)
-// //Cart
-// handleTopicRequest("add_to_cart",AddToCart)
-// handleTopicRequest("get_cart_items",GetCart)
+
+//CART
+handleTopicRequest("create_cart",CreateCart)
+handleTopicRequest("update_cart",UpdateCart)
+handleTopicRequest("get_cart_items",GetCart)
 // handleTopicRequest("remove_cart_item",RemoveCart)
 // //ORDER
 // handleTopicRequest("place_order",PlaceOrder)
-// //PRODUCTS
+
+//PRODUCTS
 handleTopicRequest("create_product",CreateProduct)
 handleTopicRequest("get_product",GetProduct)
 handleTopicRequest("update_product",UpdateProduct)
-// handleTopicRequest("get_shop_items",GetShopItems)
 handleTopicRequest("get_all_products",GetProducts)
+
+// handleTopicRequest("get_shop_items",GetShopItems)
 // handleTopicRequest("get_product_by_id",GetProductById)
 // handleTopicRequest("get_product_by_category",GetProductsByCategory)
 // handleTopicRequest("get_filtered_products",GetFilteredProducts)
 // handleTopicRequest("filter_product_by_price",GetProductsByPrice)
 // handleTopicRequest("filter_product_by_quantity",GetProductByQuantiy)
 // handleTopicRequest("filter_product_by_sales",GetProductBySales)
-// //SHOP
+
+//SHOP
 handleTopicRequest("create_shop",CreateShop)
 handleTopicRequest("update_shop",UpdateShop)
 handleTopicRequest("check_shop_availability",CheckShopAvailability)
