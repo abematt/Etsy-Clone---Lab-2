@@ -1,15 +1,21 @@
 var connection =  new require('./kafka/Connection');
 //topics files
 //var signin = require('./services/signin.js');
-var Books = require('./services/books.js');
-var Register = require('./services/auth')
-var Login = require('./services/login')
-var UserUpdate = require('./services/userUpate')
-var UserDetails = require('./services/userDetails')
-var CreateShop = require('./services/createShop')
-var CreateProduct = require('./services/createProduct')
-var UpdateShop = require('./services/updateShop')
-var UpdateProduct = require('./services/updateProduct')
+
+var Register = require('./services/User/auth')
+var Login = require('./services/User/login')
+var UserUpdate = require('./services/User/userUpate')
+var UserDetails = require('./services/User/userDetails')
+
+var CreateShop = require('./services/Shop/createShop')
+var UpdateShop = require('./services/Shop/updateShop')
+var CheckShopAvailability = require('./services/Shop/checkShopAvailability')
+var GetShop = require('./services/Shop/getShop')
+
+var CreateProduct = require('./services/Product/createProduct')
+var UpdateProduct = require('./services/Product/updateProduct')
+var GetProduct = require('./services/Product/getProduct')
+var GetProducts = require('./services/Product/getProducts')
 
 //Environment variable using dotenv
 const dotenv = require("dotenv");
@@ -50,7 +56,7 @@ function handleTopicRequest(topic_name,fname){
 // Add your TOPICs here
 //first argument is topic name
 //second argument is a function that will handle this topic request
-handleTopicRequest("post_book",Books)
+
 handleTopicRequest("auth",Register)
 handleTopicRequest("login",Login)
 //Need to add Topics+Routes
@@ -65,10 +71,10 @@ handleTopicRequest("user_details",UserDetails)
 // handleTopicRequest("place_order",PlaceOrder)
 // //PRODUCTS
 handleTopicRequest("create_product",CreateProduct)
-// handleTopicRequest("get_product",GetProduct)
+handleTopicRequest("get_product",GetProduct)
 handleTopicRequest("update_product",UpdateProduct)
 // handleTopicRequest("get_shop_items",GetShopItems)
-// handleTopicRequest("get_all_products",GetProducts)
+handleTopicRequest("get_all_products",GetProducts)
 // handleTopicRequest("get_product_by_id",GetProductById)
 // handleTopicRequest("get_product_by_category",GetProductsByCategory)
 // handleTopicRequest("get_filtered_products",GetFilteredProducts)
@@ -78,5 +84,5 @@ handleTopicRequest("update_product",UpdateProduct)
 // //SHOP
 handleTopicRequest("create_shop",CreateShop)
 handleTopicRequest("update_shop",UpdateShop)
-// handleTopicRequest("check_shop_availability",CheckShopAvailability)
-// handleTopicRequest("get_shop_details",GetShop)
+handleTopicRequest("check_shop_availability",CheckShopAvailability)
+handleTopicRequest("get_shop_details",GetShop)

@@ -1,29 +1,28 @@
-const User = require("../../models/User")
-const CryptoJS = require('crypto-js')
-const jwt = require("jsonwebtoken")
+const Product = require("../../../models/Product")
+
 
 var returnData = {
     status: "",
     message: ""
 }
-async function handle_request(msg, callback){
+
+async function handle_request(msg,callback){
     try{
-        console.log(msg)
-        const updatedUser = await User.findByIdAndUpdate(
+        const updatedProduct = await Product.findByIdAndUpdate(
             msg.id,
             {
                 $set: msg.body,
             },
-            { new:true}
+            {new:true}
         );
-        if(updatedUser){
+        if(updatedProduct){
             returnData.status = 201
-            returnData.message = updatedUser
+            returnData.message = updatedProduct
             callback(null,returnData)
         }
         else{
-            returnData.status = 400,
-            returnData.message = "Failed to find user",
+            returnData.status = 400
+            returnData.message = "Failed to find product"
             callback(null,returnData)
         }
 

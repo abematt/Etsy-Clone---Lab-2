@@ -1,4 +1,4 @@
-const Product = require("../../models/Product")
+const Shop = require("../../../models/Shop")
 
 
 var returnData = {
@@ -8,24 +8,23 @@ var returnData = {
 
 async function handle_request(msg,callback){
     try{
-        const updatedProduct = await Product.findByIdAndUpdate(
+        const updatedShop = await Shop.findByIdAndUpdate(
             msg.id,
             {
                 $set: msg.body,
             },
             {new:true}
         );
-        if(updatedProduct){
+        if (updatedShop){
             returnData.status = 201
-            returnData.message = updatedProduct
+            returnData.message = updatedShop
             callback(null,returnData)
         }
         else{
             returnData.status = 400
-            returnData.message = "Failed to find product"
+            returnData.message = "Failed to find shop"
             callback(null,returnData)
         }
-
     }catch{
         returnData.status = 400
         returnData.message = "Failed to update details"

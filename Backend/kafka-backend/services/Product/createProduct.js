@@ -1,4 +1,4 @@
-const Product = require("../../models/Product")
+const Product = require("../../../models/Product")
 const CryptoJS = require('crypto-js')
 const jwt = require("jsonwebtoken")
 
