@@ -40,7 +40,7 @@ router.put("/:id",verifyToken,async(req,res)=>{
     })
 })
 
-router.get("/find/:id",verifyToken,async(req,res)=>{
+router.get("/find/:id",async(req,res)=>{
     kafka.make_request('get_product',req.params.id,function(err,result){
         if(err){
             return res
@@ -55,7 +55,7 @@ router.get("/find/:id",verifyToken,async(req,res)=>{
     })
 })
 
-router.get("/all",verifyToken,async(req,res)=>{
+router.get("/all",async(req,res)=>{
     kafka.make_request('get_all_products',req.body,function(err,result){
         if(err){
             return res
