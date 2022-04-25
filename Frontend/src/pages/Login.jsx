@@ -1,7 +1,8 @@
 import styled from "styled-components"
 import { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { login } from '../redux/apicalls'
+import { login } from '../redux/apiCalls'
+
  
 const Container = styled.div`
     width: 100vw;
@@ -46,6 +47,11 @@ const Button = styled.button`
     padding: 15px;
     border: none;
     background-color: orange;
+    cursor:pointer;
+    &:disabled{
+        background-color:grey;
+        cursor: not-allowed;
+    }
 
 `;
 const Link = styled.a`
@@ -67,15 +73,15 @@ const Error = styled.p`
 
 
 const Login = () => {
-  const [email,setEmail] =useState("")
+  const [username,setUsername] =useState("")
   const [password,setPassword] = useState("")
+  const dispatch = useDispatch();
+  const {isFetching,error} = useSelector((state)=>state.user)
 
-//   const dispatch = useDispatch();
-//   const {isFetching,error} = useSelector((state)=>state.user)
   const handleClick = (e) =>{
       e.preventDefault();
-      console.log({email,password})
-    //   login(dispatch,{email,password})
+      console.log({username,password})
+      login(dispatch,{username,password})
   }
   return (
     <Container>
@@ -83,15 +89,15 @@ const Login = () => {
             <Title>SIGN IN</Title>
                 <Form>
                     <Input 
-                        placeholder="Email" 
-                        onChange={(e)=> setEmail(e.target.value)}/>
+                        placeholder="Username" 
+                        onChange={(e)=> setUsername(e.target.value)}/>
                     <Input 
                         placeholder="Password"
                         type="password"
                         onChange={(e)=> setPassword(e.target.value)}/>
-                    <Button onClick={handleClick}>Login</Button>
+                    <Button onClick={handleClick} disabled={isFetching}>Login</Button>
                     <Link href="/register">Create a new account</Link>
-                    {/* {error && <Error>Something went wrong</Error>} */}
+                    {error && <Error>Something went wrong</Error>}
                 </Form>
         </Wrapper>
     </Container>

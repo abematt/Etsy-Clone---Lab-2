@@ -6,9 +6,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import Badge from '@mui/material/Badge'; 
+
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { logout } from '../redux/userRedux';
+
 import HouseIcon from '@mui/icons-material/House';
+
 
 const Container = styled.div`
     height: 60px;
@@ -60,7 +64,11 @@ const Icon = styled.a`
 const Navbar = () => {
   let navigate = useNavigate();
   const quantity = useSelector(state=>state.cart.quantity)
+  const dispatch = useDispatch();
   
+  const handleLogout = (e) => {
+      dispatch(logout());
+  }
   return (
     <Container> 
         <Wrapper>
@@ -93,6 +101,9 @@ const Navbar = () => {
                 <Badge badgeContent={quantity} color="primary">
                     <ShoppingCartIcon onClick={()=>{navigate("/cart")}}/>
                 </Badge>
+                </Icon>
+                <Icon>
+                <p onClick={handleLogout}>Logout</p>
                 </Icon>
            </Right>
         </Wrapper>

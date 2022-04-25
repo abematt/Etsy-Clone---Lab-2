@@ -5,12 +5,18 @@ import Navbar from "../components/Navbar";
 
 import Add from '@mui/icons-material/Add';
 import Remove from '@mui/icons-material/Remove';
+import { userRequest } from "../requestMethods";
+
+import { useDispatch } from "react-redux";
+import {removeAllProducts } from "../redux/cartRedux"
+
 
 const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
     padding: 20px;
+    height:85vh;
 `;
 
 const Top = styled.div`
@@ -105,6 +111,34 @@ const giftOptionTitle = styled.p`
 
 const Cart = () => {
   const cart = useSelector(state=>state.cart)
+  const user = useSelector(state=>state.user)
+  const dispatch = useDispatch();
+
+  console.log(cart)
+const clearCart = (e) => {
+  dispatch(removeAllProducts());
+}
+const handleCheckOut = (e) => {
+  e.preventDefault();
+  const postOrder = async () => {
+    var productList = []
+    Array.from(cart.products).forEach(element => productList.push({"product_id":element._id,"quantity":element.quantity}))
+    const orderPayload  = {
+      "user_id" : user.currentUser._id,
+      "products" : productList,
+      "amount": cart.total
+    }
+    console.log(productList)
+    console.log(orderPayload)
+    try {
+      const product = await userRequest.post("order/create",orderPayload)
+      console.log(product)
+    }catch {
+      console.log("hi")
+    }
+  }
+  postOrder();
+} 
   return (
     <Container>
         <Navbar/>
@@ -139,7 +173,8 @@ const Cart = () => {
                   <SummaryTitle>Total Amount</SummaryTitle>
                   <SummaryItemPrice>${cart.total}</SummaryItemPrice>
                 </Bill>
-                <TopButton>Checkout Now</TopButton>
+                <TopButton onClick={handleCheckOut}>Checkout Now</TopButton>
+                <TopButton onClick={clearCart}>Clear Cart</TopButton>
               </Summary>
             </Bottom>
         </Wrapper>

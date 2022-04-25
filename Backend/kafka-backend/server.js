@@ -21,6 +21,8 @@ var CreateCart = require('./services/Cart/createCart')
 var UpdateCart = require('./services/Cart/updateCart')
 var GetCart = require("./services/Cart/getItems")
 
+var PlaceOrder = require("./services/Order/placeOrder")
+
 //Environment variable using dotenv
 const dotenv = require("dotenv");
 dotenv.config();
@@ -74,8 +76,9 @@ handleTopicRequest("create_cart",CreateCart)
 handleTopicRequest("update_cart",UpdateCart)
 handleTopicRequest("get_cart_items",GetCart)
 // handleTopicRequest("remove_cart_item",RemoveCart)
-// //ORDER
-// handleTopicRequest("place_order",PlaceOrder)
+
+//ORDER
+handleTopicRequest("place_order",PlaceOrder)
 
 //PRODUCTS
 handleTopicRequest("create_product",CreateProduct)

@@ -21,6 +21,8 @@ const userRoute = require('./routes/user')
 const productRoute = require('./routes/product')
 const shopRoute = require('./routes/shop')
 const cartRoute = require('./routes/cart')
+const orderRoute = require("./routes/order")
+
 
 //Defining api endpoints
 app.use(express.json());
@@ -30,6 +32,7 @@ app.use("/api/user",userRoute)
 app.use("/api/shop",shopRoute)
 app.use("/api/product",productRoute)
 app.use("/api/cart",cartRoute)
+app.use("/api/order",orderRoute)
 
 app.listen(3001);
 console.log("Server listening on 3001");
