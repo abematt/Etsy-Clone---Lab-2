@@ -11,17 +11,24 @@ var CreateShop = require('./services/Shop/createShop')
 var UpdateShop = require('./services/Shop/updateShop')
 var CheckShopAvailability = require('./services/Shop/checkShopAvailability')
 var GetShop = require('./services/Shop/getShop')
+var GetAllShops = require('./services/Shop/getAllShops')
 
 var CreateProduct = require('./services/Product/createProduct')
 var UpdateProduct = require('./services/Product/updateProduct')
 var GetProduct = require('./services/Product/getProduct')
 var GetProducts = require('./services/Product/getProducts')
+var GetProductByName = require("./services/Product/searchProduct")
 
 var CreateCart = require('./services/Cart/createCart')
 var UpdateCart = require('./services/Cart/updateCart')
 var GetCart = require("./services/Cart/getItems")
 
 var PlaceOrder = require("./services/Order/placeOrder")
+var GetOrder =  require("./services/Order/getOrder")
+
+var GetFavourite = require("./services/Favourite/getFavourite")
+var AddFavourite = require("./services/Favourite/addFavourite")
+var RemoveFavourite = require("./services/Favourite/removeFavourite")
 
 //Environment variable using dotenv
 const dotenv = require("dotenv");
@@ -79,12 +86,14 @@ handleTopicRequest("get_cart_items",GetCart)
 
 //ORDER
 handleTopicRequest("place_order",PlaceOrder)
+handleTopicRequest("get_orders",GetOrder)
 
 //PRODUCTS
 handleTopicRequest("create_product",CreateProduct)
 handleTopicRequest("get_product",GetProduct)
 handleTopicRequest("update_product",UpdateProduct)
 handleTopicRequest("get_all_products",GetProducts)
+handleTopicRequest("find_product_by_name",GetProductByName)
 
 // handleTopicRequest("get_shop_items",GetShopItems)
 // handleTopicRequest("get_product_by_id",GetProductById)
@@ -99,3 +108,9 @@ handleTopicRequest("create_shop",CreateShop)
 handleTopicRequest("update_shop",UpdateShop)
 handleTopicRequest("check_shop_availability",CheckShopAvailability)
 handleTopicRequest("get_shop_details",GetShop)
+handleTopicRequest("get_all_shops",GetAllShops)
+
+//FAVOURITE
+handleTopicRequest("add_favourite",AddFavourite)
+handleTopicRequest("get_favourite",GetFavourite)
+handleTopicRequest("remove_favourite",RemoveFavourite)

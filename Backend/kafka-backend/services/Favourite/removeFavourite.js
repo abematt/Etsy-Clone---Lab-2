@@ -1,4 +1,4 @@
-const Product = require("../../../models/Product")
+const Favourite = require("../../../models/Favourite")
 
 var returnData = {
     status: "",
@@ -7,15 +7,15 @@ var returnData = {
 
 async function handle_request(msg,callback){
     try {
-        const productList = await Product.find()
-        if(productList.length>0){
+        const favourite = await Favourite.deleteOne(msg)
+        if(favourite){
             returnData.status = 201
-            returnData.message = productList
+            returnData.message = favourite
             callback(null,returnData)
         }
         else{
             returnData.status = 400
-            returnData.message = "Product Not Found"
+            returnData.message = "Favourite Not Found"
             callback(null,returnData)
         }
     }catch(err){

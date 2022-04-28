@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -42,7 +42,7 @@ const SearchContainer = styled.div`
 `
 const Input = styled.input`
     border:none;
-    width:100%;
+    width:90%;
 `
 
 const Center = styled.div`
@@ -64,11 +64,13 @@ const Icon = styled.a`
 const Navbar = () => {
   let navigate = useNavigate();
   const quantity = useSelector(state=>state.cart.quantity)
+  const [search,setSearch] = useState("")
   const dispatch = useDispatch();
   
   const handleLogout = (e) => {
       dispatch(logout());
   }
+  
   return (
     <Container> 
         <Wrapper>
@@ -79,8 +81,13 @@ const Navbar = () => {
            </Left> 
            <Center>              
               <SearchContainer>
-                  <Input/>
-                  <SearchIcon/>
+                  <Input onChange={(e)=> {
+                      setSearch(e.target.value)
+                      console.log(search)}}/>
+                <Icon>
+                    <SearchIcon onClick={()=>{navigate("/search",{state: search})}}/>
+                </Icon>
+                  
               </SearchContainer>
             </Center>
            <Right>
@@ -105,6 +112,9 @@ const Navbar = () => {
                 <Icon>
                 <p onClick={handleLogout}>Logout</p>
                 </Icon>
+                <Icon>
+                    <p onClick={()=>{navigate("/orders")}}>Orders</p>
+               </Icon>
            </Right>
         </Wrapper>
     </Container>

@@ -72,4 +72,19 @@ router.get("/shopDetails",verifyToken,async(req,res)=>{
     })
 })
 
+router.get("/getAllShops",verifyToken,async(req,res)=>{
+    kafka.make_request('get_all_shops',req.body,function(err,result){
+        if(err){
+            return res
+                    .status(400)
+                    .json(err)
+        }
+        else{
+            return res
+                .status(result.status)
+                .json({"status": result.status ,"message": result.message})
+        }
+    })
+})
+
 module.exports = router;

@@ -1,26 +1,27 @@
-const Product = require("../../../models/Product")
+const Shop = require("../../../models/Shop")
 
 var returnData = {
     status: "",
-    message: ""
+    message: "",
 }
 
 async function handle_request(msg,callback){
-    try {
-        const productList = await Product.find()
-        if(productList.length>0){
+    try{
+        const shopDetails = await Shop.find()
+
+        if(shopDetails) {
             returnData.status = 201
-            returnData.message = productList
+            returnData.message = shopDetails
             callback(null,returnData)
         }
         else{
             returnData.status = 400
-            returnData.message = "Product Not Found"
+            returnData.message = "Shop not found"
             callback(null,returnData)
         }
     }catch(err){
         returnData.status = 400
-        returnData.message = err
+        returnData.message = "An unknown error occured"
         callback(null,returnData)
     }
 }

@@ -70,5 +70,21 @@ router.get("/all",async(req,res)=>{
     })
 
 })
+
+router.post("/findByName",async(req,res)=>{
+    kafka.make_request('find_product_by_name',req.body,function(err,result){
+        console.log("the message is",req.body)
+        if(err){
+            return res
+                .status(400)
+                .json({"status":400,"message":err})
+        }
+        else{
+            return res  
+                .status(result.status)
+                .json({"status":result.status,"message":result.message})
+        }
+    })
+})
 module.exports = router;
 

@@ -1,4 +1,4 @@
-const Product = require("../../../models/Product")
+const Order = require("../../../models/Order")
 
 var returnData = {
     status: "",
@@ -7,15 +7,19 @@ var returnData = {
 
 async function handle_request(msg,callback){
     try {
-        const productList = await Product.find()
-        if(productList.length>0){
+        const OrderItems = await Order.find({
+            user_id : msg
+        })
+        console.log("here inside get order")
+        console.log(OrderItems)
+        if(OrderItems){
             returnData.status = 201
-            returnData.message = productList
+            returnData.message = OrderItems
             callback(null,returnData)
         }
         else{
             returnData.status = 400
-            returnData.message = "Product Not Found"
+            returnData.message = "Cart Not Found"
             callback(null,returnData)
         }
     }catch(err){

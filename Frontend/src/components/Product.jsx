@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { userRequest } from "../requestMethods";
 import axios from 'axios';
+
 
 const Icons = styled.div`
     position: absolute;
@@ -69,24 +71,32 @@ const Product = ({item}) => {
   let navigate = useNavigate();
   const changeRoute = () => {
     let id = item._id
-    let path = `product/${id}`;
+    let path = `../product/${id}`;
     navigate(path);
+    
   }
-  // const user = useSelector((state)=>state.user)
-  // const addFavourite = () => {
-  //   console.log("Product id: ",item.id)
-  //   console.log("User id: ",user.currentUser.userdetails.id)
-  //   let addFavourite = {"user_id":user.currentUser.userdetails.id,"product_id":item.id }
-  //   console.log(addFavourite)
-  //   axios.post('http://localhost:3001/api/fav/addFavs/',addFavourite)
-  //   .then(response=>{console.log(response.data)}).catch(error=>console.error(error))
-  // }
+  const user = useSelector((state)=>state.user)
+  const token = user.currentUser.accessToken
+  console.log(token)
+  const addFavourite = async () => {
+    console.log("Product id: ",item._id)
+    console.log("User id: ",user.currentUser._id)
+    let addFavourite = {"user_id":user.currentUser._id,"product_id":item._id }
+    console.log(addFavourite)
+    const config = {
+      headers: {Authorization : `Bearer ${token}`}
+    };
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    // axios.post('http://localhost:3001/api/favourite/addFav/',addFavourite)
+    // .then(response=>{console.log(response.data)}).catch(error=>console.error(error))
+    const addToFavourite = await userRequest.post("favourite/addFav",addFavourite)
+  }
   return (
     <Container>
         <Image onClick={changeRoute} src={item.img}/>
         <PriceTag>${item.price}</PriceTag>
         <Icons>
-          <FavoriteBorderIcon/>
+          <FavoriteBorderIcon onClick={addFavourite}/>
         </Icons>
     </Container>
   )

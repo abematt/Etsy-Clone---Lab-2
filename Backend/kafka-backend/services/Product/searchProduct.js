@@ -7,10 +7,16 @@ var returnData = {
 
 async function handle_request(msg,callback){
     try {
-        const productList = await Product.find()
-        if(productList.length>0){
+        console.log("Product is",msg)
+        // const product = await Product.find({name: new RegExp(msg.name,"i")})
+        // const product = await Product.find({$text: {$search: msg.name}})
+        // const product = await Product.find({name:{$regex :msg.name}})
+        // msg.name = "table"
+        const userRegex = new RegExp(msg.name,'i')
+        const product = await Product.find({name: userRegex}).sort("asc").limit(5)
+        if(product){
             returnData.status = 201
-            returnData.message = productList
+            returnData.message = product
             callback(null,returnData)
         }
         else{

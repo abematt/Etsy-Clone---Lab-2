@@ -8,7 +8,7 @@ import Remove from '@mui/icons-material/Remove';
 import { userRequest } from "../requestMethods";
 
 import { useDispatch } from "react-redux";
-import {removeAllProducts } from "../redux/cartRedux"
+import {removeAllProducts,addProductQuantity,removeProductQuantity,deleteProduct} from "../redux/cartRedux"
 
 
 const Container = styled.div`
@@ -115,30 +115,46 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   console.log(cart)
+
 const clearCart = (e) => {
   dispatch(removeAllProducts());
 }
+
 const handleCheckOut = (e) => {
   e.preventDefault();
   const postOrder = async () => {
     var productList = []
-    Array.from(cart.products).forEach(element => productList.push({"product_id":element._id,"quantity":element.quantity}))
+    Array.from(cart.products).forEach(element =>{ 
+      console.log("element",element) 
+      productList.push({"product_id":element._id,"quantity":element.quantity,"shop_id":element.shop_id})
+    })
+    console.log("productlist",productList)
     const orderPayload  = {
       "user_id" : user.currentUser._id,
       "products" : productList,
       "amount": cart.total
     }
-    console.log(productList)
-    console.log(orderPayload)
     try {
       const product = await userRequest.post("order/create",orderPayload)
-      console.log(product)
+      dispatch(removeAllProducts());
     }catch {
-      console.log("hi")
     }
   }
   postOrder();
 } 
+const handleQuantity = (type,item,index) => {
+  if(type==="inc"){
+    dispatch(addProductQuantity(item))
+  }
+  else {
+    dispatch(removeProductQuantity(item))
+    if(item.quantity === 1)
+    {
+      console.log(item.quantity)
+      dispatch(deleteProduct(item))
+    }
+  }
+}
   return (
     <Container>
         <Navbar/>
@@ -148,14 +164,14 @@ const handleCheckOut = (e) => {
             </Top>
             <Bottom>
             <ProductBox>
-            {cart.products.map(product=>(<Product>
+            {cart.products.map((product,index)=>(<Product>
                 <ProductDetail>
                 <Image src={product.img}/>
                 <Details>
                   <ProductName><b>Product:</b>{product.name}</ProductName>
-                  <Add/>
+                  <Add onClick={()=>handleQuantity("inc",product,index)}/>
                   <ProductDetails><b>Quantity: </b>{product.quantity}</ProductDetails>
-                  <Remove/>
+                  <Remove onClick={()=>handleQuantity("dec",product,index)}/>
                   <Product>
                   <p>Gifting Packaing:</p>
                   <input type="checkbox"></input>

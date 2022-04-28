@@ -22,6 +22,7 @@ const productRoute = require('./routes/product')
 const shopRoute = require('./routes/shop')
 const cartRoute = require('./routes/cart')
 const orderRoute = require("./routes/order")
+const favouriteRoute = require("./routes/favourite")
 
 
 //Defining api endpoints
@@ -33,6 +34,7 @@ app.use("/api/shop",shopRoute)
 app.use("/api/product",productRoute)
 app.use("/api/cart",cartRoute)
 app.use("/api/order",orderRoute)
+app.use("/api/favourite",favouriteRoute)
 
 app.listen(3001);
 console.log("Server listening on 3001");

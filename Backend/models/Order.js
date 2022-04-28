@@ -19,6 +19,9 @@ const OrderSchema = new mongoose.Schema(
                     type: Boolean,
                     default: false,
                 },
+                shop_id: {
+                    type: String,
+                }
             },
         ],
         amount: {

@@ -18,4 +18,19 @@ router.post("/create",verifyToken,async(req,res)=>{
     })
 })
 
+router.get("/getOrders/:id",verifyToken,async(req,res)=>{
+    kafka.make_request('get_orders',req.params.id,function(err,results){
+        if(err){
+            return res
+                .status(400)
+                .json(err)
+        }
+        else{
+            return res
+                .status(results.status)
+                .json(results.message)
+        }        
+    })
+})
+
 module.exports = router;
